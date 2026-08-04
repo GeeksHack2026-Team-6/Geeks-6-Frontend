@@ -2,6 +2,7 @@ import homeRunBall from "../../assets/images/home-run-ball-analysis.png";
 import { Icon } from "../../components/common";
 import { MobileFrame } from "../../components/layout";
 import { ROUTES } from "../../constants";
+import { useCart } from "../../hooks";
 import {
   AnalysisContent,
   AnalysisScreen,
@@ -29,12 +30,17 @@ import {
   Section,
   SectionTitle,
 } from "./ProductAnalysisPage.style";
-import type { ProductAnalysisData } from "./ProductAnalysisPage.types";
-import { useNavigate } from "react-router-dom";
+import type {
+  ProductAnalysisData,
+  ProductAnalysisLocationState,
+} from "./ProductAnalysisPage.types";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const product: ProductAnalysisData = {
+  id: "home-run-ball",
   name: "홈런볼",
   brand: "해태",
+  imageKey: "home-run-ball",
   carbonKg: 0.82,
   reductionPercentage: 20,
   rewardPoints: 50,
@@ -43,7 +49,19 @@ const product: ProductAnalysisData = {
 };
 
 export function ProductAnalysisPage() {
+  const { state } = useLocation();
   const navigate = useNavigate();
+  const { addItem } = useCart();
+  const locationState = state as ProductAnalysisLocationState | null;
+
+  const handleAddToCart = () => {
+    try {
+      addItem(product, locationState?.barcode);
+      navigate(ROUTES.cart);
+    } catch {
+      window.alert("장바구니에 상품을 저장하지 못했습니다. 다시 시도해주세요.");
+    }
+  };
 
   return (
     <MobileFrame>
@@ -107,9 +125,7 @@ export function ProductAnalysisPage() {
             </EsgCard>
           </Section>
 
-          <CartButton
-            type="button"
-            onClick={() => window.alert("장바구니에 상품을 담았습니다.")}>
+          <CartButton type="button" onClick={handleAddToCart}>
             장바구니 담기
           </CartButton>
         </AnalysisContent>

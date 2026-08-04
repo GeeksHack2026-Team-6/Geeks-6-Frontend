@@ -1,9 +1,10 @@
-export interface ProductAnalysisData {
-  name: string;
-  brand: string;
-  carbonKg: number;
-  reductionPercentage: number;
-  rewardPoints: number;
+import type { ProductData } from "../../types";
+
+export interface ProductAnalysisData extends ProductData {
   esgRating: string;
   esgDescription: string;
+}
+
+export interface ProductAnalysisLocationState {
+  barcode?: string;
 }

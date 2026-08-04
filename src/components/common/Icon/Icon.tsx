@@ -6,6 +6,7 @@ import carbonFootprint from "../../../assets/icons/carbon-footprint.svg";
 import carbonSavings from "../../../assets/icons/carbon-savings.svg";
 import certifiedCompany from "../../../assets/icons/certified-company.svg";
 import close from "../../../assets/icons/close.svg";
+import deleteIcon from "../../../assets/icons/delete.svg";
 import email from "../../../assets/icons/email.svg";
 import eyeHidden from "../../../assets/icons/eye-hidden.svg";
 import eyeVisible from "../../../assets/icons/eye-visible.svg";
@@ -14,6 +15,7 @@ import passwordLock from "../../../assets/icons/password-lock.svg";
 import points from "../../../assets/icons/points.svg";
 import pointsNavigation from "../../../assets/icons/points-navigation.svg";
 import profile from "../../../assets/icons/profile.svg";
+import receipt from "../../../assets/icons/receipt.svg";
 import rewardPoints from "../../../assets/icons/reward-points.svg";
 import search from "../../../assets/icons/search.svg";
 import { IconImage } from "./Icon.style";
@@ -28,6 +30,7 @@ const iconSources: Record<IconName, string> = {
   "carbon-savings": carbonSavings,
   "certified-company": certifiedCompany,
   close,
+  delete: deleteIcon,
   email,
   "eye-hidden": eyeHidden,
   "eye-visible": eyeVisible,
@@ -36,6 +39,7 @@ const iconSources: Record<IconName, string> = {
   points,
   "points-navigation": pointsNavigation,
   profile,
+  receipt,
   "reward-points": rewardPoints,
   search,
 };

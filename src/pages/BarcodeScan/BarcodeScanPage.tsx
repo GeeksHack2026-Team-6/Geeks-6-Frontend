@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { BarcodeScanner } from "react-barcode-scanner";
 import type { DetectedBarcode } from "react-barcode-scanner";
 import "react-barcode-scanner/polyfill";
 import { useNavigate } from "react-router-dom";
-import { Icon } from "../../components/common";
+import { BarcodeInputModal, Icon } from "../../components/common";
 import { MobileFrame } from "../../components/layout";
 import { ROUTES } from "../../constants";
 import {
@@ -21,6 +21,8 @@ export function BarcodeScanPage() {
   const navigate = useNavigate();
   const capturedRef = useRef(false);
   const [paused, setPaused] = useState(false);
+  const [isManualEntryOpen, setIsManualEntryOpen] = useState(false);
+  const [manualBarcode, setManualBarcode] = useState("");
 
   const openAnalysis = (barcode: string) => {
     navigate(ROUTES.productAnalysis, { state: { barcode } });
@@ -39,9 +41,19 @@ export function BarcodeScanPage() {
   };
 
   const handleManualEntry = () => {
-    const barcode = window.prompt("상품번호를 입력해주세요.")?.trim();
+    setManualBarcode("");
+    setIsManualEntryOpen(true);
+  };
 
-    if (barcode) {
+  const handleCloseManualEntry = useCallback(() => {
+    setIsManualEntryOpen(false);
+  }, []);
+
+  const handleManualBarcodeChange = (barcode: string) => {
+    setManualBarcode(barcode);
+
+    if (barcode.length === 13) {
+      setIsManualEntryOpen(false);
       openAnalysis(barcode);
     }
   };
@@ -59,7 +71,7 @@ export function BarcodeScanPage() {
           <ScanTitle>상품의 바코드를 스캔하세요</ScanTitle>
           <ScannerFrame>
             <BarcodeScanner
-              paused={paused}
+              paused={paused || isManualEntryOpen}
               options={{ delay: 500, formats: supportedProductFormats }}
               trackConstraints={{ facingMode: { ideal: "environment" } }}
               onCapture={handleCapture}
@@ -71,6 +83,13 @@ export function BarcodeScanPage() {
             <Icon name="arrow-forward" />
           </ManualEntryButton>
         </ScanContent>
+        {isManualEntryOpen && (
+          <BarcodeInputModal
+            value={manualBarcode}
+            onChange={handleManualBarcodeChange}
+            onClose={handleCloseManualEntry}
+          />
+        )}
       </ScanScreen>
     </MobileFrame>
   );

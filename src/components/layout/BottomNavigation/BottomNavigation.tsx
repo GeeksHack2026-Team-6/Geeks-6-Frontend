@@ -23,8 +23,8 @@ export function BottomNavigation() {
     {
       label: "장바구니",
       icon: "cart",
-      active: false,
-      onClick: () => window.alert("장바구니 기능은 준비 중입니다."),
+      active: pathname === ROUTES.cart,
+      onClick: () => navigate(ROUTES.cart),
     },
     {
       label: "마이",

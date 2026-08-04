@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ROUTES } from "../constants";
+import { CartPage } from "../pages/Cart";
 import { HomePage } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
 import { PointsPage } from "../pages/Points";
@@ -20,6 +21,7 @@ export function AppRouter() {
           <Route path={ROUTES.points} element={<PointsPage />} />
           <Route path={ROUTES.scan} element={<BarcodeScanPage />} />
           <Route path={ROUTES.productAnalysis} element={<ProductAnalysisPage />} />
+          <Route path={ROUTES.cart} element={<CartPage />} />
           <Route path={ROUTES.login} element={<LoginPage />} />
           <Route path={ROUTES.signup} element={<SignupPage />} />
           <Route path="*" element={<Navigate to={ROUTES.home} replace />} />

@@ -9,6 +9,7 @@ export type IconName =
   | "carbon-savings"
   | "certified-company"
   | "close"
+  | "delete"
   | "email"
   | "eye-hidden"
   | "eye-visible"
@@ -17,6 +18,7 @@ export type IconName =
   | "points"
   | "points-navigation"
   | "profile"
+  | "receipt"
   | "reward-points"
   | "search";
 
