@@ -4,6 +4,7 @@ import { ROUTES } from "../constants";
 import { CartPage } from "../pages/Cart";
 import { HomePage } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
+import { MyPage } from "../pages/My";
 import { PointsPage } from "../pages/Points";
 import { ProductAnalysisPage } from "../pages/ProductAnalysis";
 import { SignupPage } from "../pages/SignUp";
@@ -22,6 +23,7 @@ export function AppRouter() {
           <Route path={ROUTES.scan} element={<BarcodeScanPage />} />
           <Route path={ROUTES.productAnalysis} element={<ProductAnalysisPage />} />
           <Route path={ROUTES.cart} element={<CartPage />} />
+          <Route path={ROUTES.my} element={<MyPage />} />
           <Route path={ROUTES.login} element={<LoginPage />} />
           <Route path={ROUTES.signup} element={<SignupPage />} />
           <Route path="*" element={<Navigate to={ROUTES.home} replace />} />

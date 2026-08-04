@@ -4,6 +4,7 @@ export const ROUTES = {
   scan: "/scan",
   productAnalysis: "/product-analysis",
   cart: "/cart",
+  my: "/my",
   login: "/login",
   signup: "/signup",
 } as const;

@@ -4,6 +4,7 @@ export type IconName =
   | "arrow-back"
   | "arrow-forward"
   | "camera-scan"
+  | "carbon-reduction"
   | "cart"
   | "carbon-footprint"
   | "carbon-savings"
@@ -13,14 +14,20 @@ export type IconName =
   | "email"
   | "eye-hidden"
   | "eye-visible"
+  | "help"
   | "home"
   | "password-lock"
   | "points"
   | "points-navigation"
+  | "privacy"
   | "profile"
+  | "purchase-verification"
   | "receipt"
+  | "responsible-consumption"
   | "reward-points"
-  | "search";
+  | "search"
+  | "settings"
+  | "terms";
 
 export interface IconProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> {
   name: IconName;

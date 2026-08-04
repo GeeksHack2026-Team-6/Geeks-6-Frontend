@@ -29,8 +29,8 @@ export function BottomNavigation() {
     {
       label: "마이",
       icon: "profile",
-      active: pathname === ROUTES.login,
-      onClick: () => navigate(ROUTES.login),
+      active: pathname === ROUTES.my,
+      onClick: () => navigate(ROUTES.my),
     },
   ];
 
