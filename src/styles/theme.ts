@@ -1,0 +1,50 @@
+export const theme = {
+  colors: {
+    primary: "#16a34a",
+    primaryDisabled: "#9dceaf",
+    surface: "#f7f7f7",
+    white: "#ffffff",
+    ink: "#111111",
+    heading: "#1e2124",
+    muted: "#575757",
+    field: "#8c8c8c",
+    placeholder: "#9f9f9f",
+    danger: "#dc2626",
+    viewport: "#d4d4d4",
+    frameBorder: "#b5b5b5",
+    focus: "#14532d",
+  },
+  fontSizes: {
+    xs: "12px",
+    sm: "14px",
+    md: "16px",
+    lg: "18px",
+    xl: "20px",
+    xxl: "26px",
+  },
+  fontWeights: { regular: 400, medium: 500, semibold: 600 },
+  lineHeights: { compact: 1.4, normal: 1.5, relaxed: "28px" },
+  spacing: {
+    xxs: "4px",
+    xs: "5px",
+    sm: "8px",
+    md: "10px",
+    lg: "12px",
+    xl: "16px",
+    xxl: "20px",
+    page: "23px",
+  },
+  dimensions: {
+    mobileMaxWidth: "412px",
+    mobileMaxHeight: "917px",
+    navigationHeight: "62px",
+  },
+  radii: { card: "12px", button: "14px", device: "24px", round: "999px" },
+  shadows: {
+    card: "0 2px 4px rgba(0, 0, 0, 0.25)",
+    device: "0 18px 45px rgba(0, 0, 0, 0.22)",
+  },
+  breakpoints: { mobile: "412px", shortDesktop: "700px" },
+} as const;
+
+export type AppTheme = typeof theme;
