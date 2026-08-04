@@ -1,16 +1,37 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../constants";
 import { Icon } from "../../common";
 import { Navigation, NavItem, ScanButton } from "./BottomNavigation.style";
 import type { NavigationItem } from "./BottomNavigation.types";
 
 export function BottomNavigation() {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const items: NavigationItem[] = [
-    { label: "홈", icon: "home", active: true },
-    { label: "인증기업", icon: "certified-company" },
-    { label: "포인트", icon: "points" },
-    { label: "마이", icon: "profile", onClick: () => navigate(ROUTES.login) },
+    {
+      label: "홈",
+      icon: "home",
+      active: pathname === ROUTES.home,
+      onClick: () => navigate(ROUTES.home),
+    },
+    {
+      label: "포인트",
+      icon: "points-navigation",
+      active: pathname === ROUTES.points,
+      onClick: () => navigate(ROUTES.points),
+    },
+    {
+      label: "장바구니",
+      icon: "cart",
+      active: false,
+      onClick: () => window.alert("장바구니 기능은 준비 중입니다."),
+    },
+    {
+      label: "마이",
+      icon: "profile",
+      active: pathname === ROUTES.login,
+      onClick: () => navigate(ROUTES.login),
+    },
   ];
 
   return (
@@ -19,6 +40,7 @@ export function BottomNavigation() {
         <NavItem
           key={item.label}
           $active={item.active}
+          aria-current={item.active ? "page" : undefined}
           type="button"
           onClick={item.onClick}>
           <Icon name={item.icon} />
@@ -35,6 +57,7 @@ export function BottomNavigation() {
         <NavItem
           key={item.label}
           $active={item.active}
+          aria-current={item.active ? "page" : undefined}
           type="button"
           onClick={item.onClick}>
           <Icon name={item.icon} />

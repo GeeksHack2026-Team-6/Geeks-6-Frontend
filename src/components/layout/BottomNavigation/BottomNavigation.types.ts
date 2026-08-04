@@ -1,6 +1,6 @@
 export interface NavigationItem {
   label: string;
-  icon: "home" | "certified-company" | "points" | "profile";
+  icon: "home" | "points-navigation" | "cart" | "profile";
   active?: boolean;
   onClick?: () => void;
 }

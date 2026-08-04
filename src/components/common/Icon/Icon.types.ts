@@ -3,6 +3,7 @@ import type { ImgHTMLAttributes } from "react";
 export type IconName =
   | "arrow-back"
   | "camera-scan"
+  | "cart"
   | "carbon-footprint"
   | "carbon-savings"
   | "certified-company"
@@ -12,6 +13,7 @@ export type IconName =
   | "home"
   | "password-lock"
   | "points"
+  | "points-navigation"
   | "profile"
   | "reward-points"
   | "search";

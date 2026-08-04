@@ -23,7 +23,13 @@ export const NavItem = styled.button<{ $active?: boolean }>`
   background: transparent;
   font-size: ${({ theme }) => theme.fontSizes.xs};
 
-  ${({ $active }) => $active && "img { filter: invert(47%) sepia(92%) saturate(502%) hue-rotate(92deg) brightness(86%) contrast(91%); }"}
+  img {
+    filter: ${({ $active }) =>
+      $active
+        ? "invert(47%) sepia(92%) saturate(502%) hue-rotate(92deg) brightness(86%) contrast(91%)"
+        : "brightness(0) saturate(100%)"};
+  }
+
   &:focus-visible {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
     outline-offset: 3px;
