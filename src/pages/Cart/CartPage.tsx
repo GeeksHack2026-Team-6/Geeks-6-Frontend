@@ -3,7 +3,6 @@ import homeRunBall from "../../assets/images/home-run-ball-analysis.png";
 import { Icon } from "../../components/common";
 import { BottomNavigation, MobileFrame } from "../../components/layout";
 import { useCart } from "../../hooks";
-import type { ProductImageKey } from "../../types";
 import {
   CartContent,
   CartDescription,
@@ -30,10 +29,6 @@ import {
 } from "./CartPage.style";
 import type { CartProductRowProps } from "./CartPage.types";
 
-const productImages: Record<ProductImageKey, string> = {
-  "home-run-ball": homeRunBall,
-};
-
 function CartProductRow({ item, checked, onToggle }: CartProductRowProps) {
   return (
     <ProductRow>
@@ -45,7 +40,7 @@ function CartProductRow({ item, checked, onToggle }: CartProductRowProps) {
       />
       <ProductImageFrame>
         <ProductImage
-          src={productImages[item.imageKey]}
+          src={item.imageUrl ?? homeRunBall}
           alt={`${item.brand} ${item.name}`}
         />
       </ProductImageFrame>
@@ -53,7 +48,9 @@ function CartProductRow({ item, checked, onToggle }: CartProductRowProps) {
         <ProductName>{item.name}</ProductName>
         <ProductBrand>{item.brand}</ProductBrand>
         <ProductCarbon>{item.carbonKg.toFixed(2)} kg CO₂e</ProductCarbon>
-        <ProductReward>구매 인증 시 +{item.rewardPoints}P</ProductReward>
+        {item.rewardPoints !== null && (
+          <ProductReward>구매 인증 시 +{item.rewardPoints}P</ProductReward>
+        )}
       </ProductDetails>
     </ProductRow>
   );

@@ -156,3 +156,8 @@ export const MenuButton = styled.button`
     outline-offset: 3px;
   }
 `;
+
+export const SignoutButton = styled(MenuButton)`
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.colors.danger};
+`;

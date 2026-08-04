@@ -7,6 +7,7 @@ import { PageTitle } from "../../components/common";
 import { ProductSection, SummaryCard } from "../../components/home";
 import type { ProductCardData } from "../../components/home";
 import { BottomNavigation, MobileFrame } from "../../components/layout";
+import { useCurrentMember } from "../../hooks";
 import {
   Content,
   HomeHeading,
@@ -31,16 +32,18 @@ const productCards: ProductCardData[] = [
   { name: "고체비누", carbon: "0.41", percentage: "8", points: "20" },
   { name: "텀블러", carbon: "0.82", percentage: "20", points: "50", image: tumbler },
 ];
-const user = { name: "김현수", carbon: "1.24", points: "120" };
+const dailyCarbonReduction = "1.24";
 
 export function HomePage() {
+  const { member } = useCurrentMember();
+
   return (
     <MobileFrame>
       <HomeScreen>
         <Content>
           <HomeHeading>
             <PageTitle size="home">
-              안녕하세요, {user.name} 님<br />
+              안녕하세요, {member?.username ?? ""} 님<br />
               오늘도 환경을 지키기 위해 노력해보세요
             </PageTitle>
           </HomeHeading>
@@ -51,13 +54,13 @@ export function HomePage() {
             <SummaryGrid>
               <SummaryCard
                 type="탄소 절감"
-                value={`${user.carbon}kg`}
+                value={`${dailyCarbonReduction}kg`}
                 label="오늘 내가 절감한 탄소"
                 icon="carbon-savings"
               />
               <SummaryCard
                 type="포인트"
-                value={`${user.points}P`}
+                value={member ? `${member.points}P` : "..."}
                 label="오늘 적립한 포인트"
                 icon="reward-points"
               />

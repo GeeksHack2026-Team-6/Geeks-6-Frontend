@@ -11,6 +11,7 @@ import {
   PageTitle,
 } from "../../components/common";
 import { MobileFrame } from "../../components/layout";
+import { useAuth } from "../../hooks";
 import { isValidEmail } from "../../utils";
 import {
   Actions,
@@ -27,6 +28,7 @@ import type { SignupStep } from "./SignupPage.types";
 
 export function SignupPage() {
   const navigate = useNavigate();
+  const { isPending, signup } = useAuth();
   const [step, setStep] = useState<SignupStep>("profile");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -64,14 +66,17 @@ export function SignupPage() {
         ? "이메일 인증"
         : "비밀번호 설정";
 
-  function continueSignup(event: FormEvent<HTMLFormElement>) {
+  async function continueSignup(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (step === "profile" && profileReady) setStep("verification");
     if (step === "verification") {
       setVerificationAttempted(true);
       if (verificationReady) setStep("password");
     }
-    if (step === "password" && passwordReady) navigate(ROUTES.home);
+    if (step === "password" && passwordReady) {
+      const member = await signup({ email, password, username: name.trim() });
+      if (member) navigate(ROUTES.home, { replace: true });
+    }
   }
 
   return (
@@ -164,7 +169,7 @@ export function SignupPage() {
             </Fields>
           )}
           <Actions>
-            <Button type="submit" disabled={!ready}>
+            <Button type="submit" disabled={!ready || isPending}>
               {step === "password" ? "회원가입" : "다음"}
             </Button>
             <AuthFooter

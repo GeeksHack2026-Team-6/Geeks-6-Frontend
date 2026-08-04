@@ -1,5 +1,8 @@
 import { Icon } from "../../components/common";
 import { BottomNavigation, MobileFrame } from "../../components/layout";
+import { ROUTES } from "../../constants";
+import { useAuth, useCurrentMember } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 import {
   AllHistoryButton,
   ContentDivider,
@@ -20,14 +23,13 @@ import {
   SummaryList,
   SummaryRow,
   SummaryValue,
+  SignoutButton,
 } from "./MyPage.style";
 import type {
   ConsumptionSummaryItem,
   MyMenuItem,
   PurchaseHistoryItem,
 } from "./MyPage.types";
-
-const userName = "정우진";
 
 const consumptionSummary: ConsumptionSummaryItem[] = [
   { label: "내가 책임 소비한 상품", value: "17개", icon: "responsible-consumption" },
@@ -54,6 +56,16 @@ const menuItems: MyMenuItem[] = [
 ];
 
 export function MyPage() {
+  const navigate = useNavigate();
+  const { isPending, signout } = useAuth();
+  const { member } = useCurrentMember();
+
+  async function handleSignout() {
+    if (await signout()) {
+      navigate(ROUTES.login, { replace: true });
+    }
+  }
+
   return (
     <MobileFrame>
       <MyScreen>
@@ -61,7 +73,7 @@ export function MyPage() {
           <MyHeader>
             <MyTitle>나의 소비</MyTitle>
             <MyDescription>
-              {userName} 님이 만들어온 현명한 선택들을 확인해보세요
+              {member?.username ?? "회원"} 님이 만들어온 현명한 선택들을 확인해보세요
             </MyDescription>
           </MyHeader>
 
@@ -108,6 +120,12 @@ export function MyPage() {
                 {item.label}
               </MenuButton>
             ))}
+            <SignoutButton
+              type="button"
+              disabled={isPending}
+              onClick={() => void handleSignout()}>
+              {isPending ? "로그아웃 중..." : "로그아웃"}
+            </SignoutButton>
           </MenuList>
         </MyContent>
         <BottomNavigation />

@@ -16,6 +16,7 @@ import {
 } from "./BarcodeScanPage.style";
 
 const supportedProductFormats = ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"];
+const isSupportedBarcode = (barcode: string) => /^(?:\d{8}|\d{12,14})$/.test(barcode);
 
 export function BarcodeScanPage() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export function BarcodeScanPage() {
   };
 
   const handleCapture = (barcodes: DetectedBarcode[]) => {
-    const barcode = barcodes.find(({ rawValue }) => rawValue.trim().length > 0);
+    const barcode = barcodes.find(({ rawValue }) => isSupportedBarcode(rawValue.trim()));
 
     if (!barcode || capturedRef.current) {
       return;
@@ -51,10 +52,12 @@ export function BarcodeScanPage() {
 
   const handleManualBarcodeChange = (barcode: string) => {
     setManualBarcode(barcode);
+  };
 
-    if (barcode.length === 13) {
+  const handleManualBarcodeSubmit = () => {
+    if (isSupportedBarcode(manualBarcode)) {
       setIsManualEntryOpen(false);
-      openAnalysis(barcode);
+      openAnalysis(manualBarcode);
     }
   };
 
@@ -87,6 +90,7 @@ export function BarcodeScanPage() {
           <BarcodeInputModal
             value={manualBarcode}
             onChange={handleManualBarcodeChange}
+            onSubmit={handleManualBarcodeSubmit}
             onClose={handleCloseManualEntry}
           />
         )}

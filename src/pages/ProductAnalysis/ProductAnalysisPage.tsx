@@ -2,7 +2,8 @@ import homeRunBall from "../../assets/images/home-run-ball-analysis.png";
 import { Icon } from "../../components/common";
 import { MobileFrame } from "../../components/layout";
 import { ROUTES } from "../../constants";
-import { useCart } from "../../hooks";
+import { useCart, useProductByBarcode } from "../../hooks";
+import { AppLoadingPage } from "../AppLoading";
 import {
   AnalysisContent,
   AnalysisScreen,
@@ -30,29 +31,19 @@ import {
   Section,
   SectionTitle,
 } from "./ProductAnalysisPage.style";
-import type {
-  ProductAnalysisData,
-  ProductAnalysisLocationState,
-} from "./ProductAnalysisPage.types";
+import type { ProductAnalysisLocationState } from "./ProductAnalysisPage.types";
 import { useLocation, useNavigate } from "react-router-dom";
-
-const product: ProductAnalysisData = {
-  id: "home-run-ball",
-  name: "홈런볼",
-  brand: "해태",
-  imageKey: "home-run-ball",
-  carbonKg: 0.82,
-  reductionPercentage: 20,
-  rewardPoints: 50,
-  esgRating: "우수",
-  esgDescription: "환경, 사회, 지배구조, 모두 좋은 평가를 받고 있는 기업이에요",
-};
 
 export function ProductAnalysisPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { addItem } = useCart();
   const locationState = state as ProductAnalysisLocationState | null;
+  const { product, isLoading } = useProductByBarcode(locationState?.barcode);
+
+  if (isLoading || !product) {
+    return <AppLoadingPage />;
+  }
 
   const handleAddToCart = () => {
     try {
@@ -78,7 +69,10 @@ export function ProductAnalysisPage() {
 
         <AnalysisContent>
           <ProductImageCard>
-            <ProductImage src={homeRunBall} alt={`${product.brand} ${product.name}`} />
+            <ProductImage
+              src={product.imageUrl ?? homeRunBall}
+              alt={`${product.brand} ${product.name}`}
+            />
           </ProductImageCard>
 
           <ProductInfo>
@@ -86,9 +80,11 @@ export function ProductAnalysisPage() {
               <ProductName>{product.name}</ProductName>
               <ProductBrand>{product.brand}</ProductBrand>
             </ProductMeta>
-            <RewardBadge>
-              구매 시<br />+{product.rewardPoints}P
-            </RewardBadge>
+            {product.rewardPoints !== null && (
+              <RewardBadge>
+                구매 시<br />+{product.rewardPoints}P
+              </RewardBadge>
+            )}
           </ProductInfo>
 
           <Section aria-labelledby="carbon-title">
@@ -98,15 +94,15 @@ export function ProductAnalysisPage() {
                 <Icon name="carbon-footprint" size={20} />
                 <CarbonValue>{product.carbonKg.toFixed(2)} kg CO₂e</CarbonValue>
               </CarbonHeader>
-              <CarbonComparison>
-                평균보다 <strong>{product.reductionPercentage}%</strong> 낮아요
-              </CarbonComparison>
-              <ComparisonBar aria-hidden="true">
+              <CarbonComparison>{product.comparisonDescription}</CarbonComparison>
+              <ComparisonBar
+                $productPosition={product.comparisonPosition}
+                aria-hidden="true">
                 <span />
                 <i />
                 <b />
               </ComparisonBar>
-              <ComparisonLabels>
+              <ComparisonLabels $productPosition={product.comparisonPosition}>
                 <span>이 상품</span>
                 <span>평균</span>
               </ComparisonLabels>
@@ -118,7 +114,7 @@ export function ProductAnalysisPage() {
             <EsgCard>
               <EsgStatus>
                 <span />
-                {product.esgRating}
+                {product.esgLabel}
               </EsgStatus>
               <EsgDescription>{product.esgDescription}</EsgDescription>
               <EsDetailButton type="button">자세히 보기</EsDetailButton>

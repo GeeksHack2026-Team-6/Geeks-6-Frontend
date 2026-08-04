@@ -1,7 +1,5 @@
 import { STORAGE_KEYS } from "../constants";
-import type { CartItem, ProductData, ProductImageKey } from "../types";
-
-const productImageKeys: ProductImageKey[] = ["home-run-ball"];
+import type { CartItem, ProductData } from "../types";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -16,11 +14,10 @@ function isCartItem(value: unknown): value is CartItem {
     typeof value.id === "string" &&
     typeof value.name === "string" &&
     typeof value.brand === "string" &&
-    typeof value.imageKey === "string" &&
-    productImageKeys.includes(value.imageKey as ProductImageKey) &&
+    (typeof value.imageUrl === "string" || value.imageUrl === null) &&
     typeof value.carbonKg === "number" &&
     typeof value.reductionPercentage === "number" &&
-    typeof value.rewardPoints === "number" &&
+    (typeof value.rewardPoints === "number" || value.rewardPoints === null) &&
     (typeof value.barcode === "string" || value.barcode === null) &&
     typeof value.addedAt === "string"
   );

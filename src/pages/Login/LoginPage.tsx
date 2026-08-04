@@ -11,6 +11,7 @@ import {
   PageTitle,
 } from "../../components/common";
 import { MobileFrame } from "../../components/layout";
+import { useAuth } from "../../hooks";
 import { isValidEmail } from "../../utils";
 import {
   Actions,
@@ -23,6 +24,7 @@ import {
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { isPending, login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -32,10 +34,13 @@ export function LoginPage() {
   const passwordError =
     submitted && password.length < 6 ? "비밀번호는 6글자 이상이어야 해요" : undefined;
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitted(true);
-    if (ready) navigate(ROUTES.home);
+    if (!ready) return;
+
+    const member = await login({ email, password });
+    if (member) navigate(ROUTES.home, { replace: true });
   }
 
   return (
@@ -74,7 +79,7 @@ export function LoginPage() {
             비밀번호를 잊으셨나요?
           </ForgotPasswordButton>
           <Actions>
-            <Button type="submit" disabled={!ready}>
+            <Button type="submit" disabled={!ready || isPending}>
               로그인
             </Button>
             <AuthFooter

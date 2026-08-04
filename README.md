@@ -1,5 +1,10 @@
 # React + TypeScript + Vite
 
+## API configuration
+
+Set `VITE_API_BASE_URL` in `.env` to the API base URL. Include a shared path prefix such as
+`/api` when the server uses one; API requests are sent directly to this URL without a Vite proxy.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

@@ -140,7 +140,7 @@ export const CarbonComparison = styled.p`
   }
 `;
 
-export const ComparisonBar = styled.div`
+export const ComparisonBar = styled.div<{ $productPosition: number }>`
   position: relative;
   height: 10px;
 
@@ -160,7 +160,7 @@ export const ComparisonBar = styled.div`
 
   span {
     z-index: 1;
-    width: 32.6%;
+    width: ${({ $productPosition }) => `${$productPosition}%`};
     background: ${({ theme }) => theme.colors.primary};
   }
 
@@ -175,7 +175,7 @@ export const ComparisonBar = styled.div`
   }
 
   i {
-    left: 30.5%;
+    left: ${({ $productPosition }) => `${$productPosition}%`};
     width: 10px;
     height: 10px;
     background: ${({ theme }) => theme.colors.primary};
@@ -190,7 +190,7 @@ export const ComparisonBar = styled.div`
   }
 `;
 
-export const ComparisonLabels = styled.div`
+export const ComparisonLabels = styled.div<{ $productPosition: number }>`
   position: relative;
   height: 17px;
   margin-top: 2px;
@@ -204,7 +204,7 @@ export const ComparisonLabels = styled.div`
   }
 
   span:first-of-type {
-    left: 30.5%;
+    left: ${({ $productPosition }) => `${$productPosition}%`};
   }
 
   span:last-of-type {

@@ -32,7 +32,7 @@ export const ModalTitle = styled.h2`
 export const DigitSlots = styled.label`
   position: relative;
   display: grid;
-  grid-template-columns: repeat(13, minmax(0, 1fr));
+  grid-template-columns: repeat(14, minmax(0, 1fr));
   gap: ${({ theme }) => theme.spacing.xxs};
   width: 100%;
   cursor: text;
@@ -59,4 +59,18 @@ export const BarcodeInput = styled.input`
   outline: 0;
   opacity: 0;
   cursor: text;
+`;
+
+export const SubmitButton = styled.button`
+  width: 100%;
+  min-height: 40px;
+  border: 0;
+  border-radius: ${({ theme }) => theme.radii.button};
+  color: ${({ theme }) => theme.colors.white};
+  background: ${({ theme }) => theme.colors.primary};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+
+  &:disabled {
+    background: ${({ theme }) => theme.colors.primaryDisabled};
+  }
 `;
