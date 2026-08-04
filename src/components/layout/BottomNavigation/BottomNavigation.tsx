@@ -49,8 +49,8 @@ export function BottomNavigation() {
       ))}
       <ScanButton
         type="button"
-        onClick={() => window.alert("상품 검색 기능은 준비 중입니다.")}
-        aria-label="상품 검색">
+        onClick={() => navigate(ROUTES.scan)}
+        aria-label="바코드 스캔">
         <Icon name="camera-scan" />
       </ScanButton>
       {items.slice(2).map((item) => (

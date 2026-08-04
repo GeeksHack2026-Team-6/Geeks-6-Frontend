@@ -1,9 +1,11 @@
 import arrowBack from "../../../assets/icons/arrow-back.svg";
+import arrowForward from "../../../assets/icons/arrow-forward.svg";
 import cameraScan from "../../../assets/icons/camera-scan.svg";
 import cart from "../../../assets/icons/cart.svg";
 import carbonFootprint from "../../../assets/icons/carbon-footprint.svg";
 import carbonSavings from "../../../assets/icons/carbon-savings.svg";
 import certifiedCompany from "../../../assets/icons/certified-company.svg";
+import close from "../../../assets/icons/close.svg";
 import email from "../../../assets/icons/email.svg";
 import eyeHidden from "../../../assets/icons/eye-hidden.svg";
 import eyeVisible from "../../../assets/icons/eye-visible.svg";
@@ -19,11 +21,13 @@ import type { IconName, IconProps } from "./Icon.types";
 
 const iconSources: Record<IconName, string> = {
   "arrow-back": arrowBack,
+  "arrow-forward": arrowForward,
   "camera-scan": cameraScan,
   cart,
   "carbon-footprint": carbonFootprint,
   "carbon-savings": carbonSavings,
   "certified-company": certifiedCompany,
+  close,
   email,
   "eye-hidden": eyeHidden,
   "eye-visible": eyeVisible,

@@ -2,11 +2,13 @@ import type { ImgHTMLAttributes } from "react";
 
 export type IconName =
   | "arrow-back"
+  | "arrow-forward"
   | "camera-scan"
   | "cart"
   | "carbon-footprint"
   | "carbon-savings"
   | "certified-company"
+  | "close"
   | "email"
   | "eye-hidden"
   | "eye-visible"

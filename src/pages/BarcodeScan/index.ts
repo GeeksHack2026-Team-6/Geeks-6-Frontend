@@ -1,0 +1,1 @@
+export { BarcodeScanPage } from "./BarcodeScanPage";
