@@ -1,0 +1,1 @@
+bun.cmd run lint && bun.cmd run build && bun.cmd run format:check
