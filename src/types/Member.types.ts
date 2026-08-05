@@ -7,6 +7,10 @@ export interface Member {
   updatedAt: string;
 }
 
+export interface MemberTokenResponse {
+  accessToken: string;
+}
+
 export interface SignupRequest {
   email: string;
   password: string;

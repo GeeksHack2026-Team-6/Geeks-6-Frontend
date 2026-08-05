@@ -31,7 +31,7 @@ function ProductCard({ card }: { card: ProductCardData }) {
         {card.image ? (
           <img src={card.image} alt={`${card.name} 상품 이미지`} />
         ) : (
-          <span>이미지 준비중...</span>
+          <span>이미지 준비중</span>
         )}
       </ProductImage>
       <ProductCopy>
@@ -40,12 +40,12 @@ function ProductCard({ card }: { card: ProductCardData }) {
           <span aria-hidden="true">
             <Icon name="carbon-footprint" size={20} />
           </span>
-          {card.carbon} kg CO₂
+          {card.carbon} kg CO₂e
         </Carbon>
         <p>
-          평균보다 <em>{card.percentage}%</em> 더 낮아요
+          평균보다 <em>{card.percentage}%</em> 낮아요
         </p>
-        <p>+ {card.points}P 적립 가능해요</p>
+        <p>포인트 가중치 {card.pointWeight}%</p>
       </ProductCopy>
     </ProductCardRoot>
   );
@@ -60,7 +60,7 @@ export function ProductSection({ title, cards }: ProductSectionProps) {
       </PageTitle>
       <CardRow role="region" aria-label={`${title} 목록`} tabIndex={0}>
         {cards.map((card) => (
-          <ProductCard key={card.name} card={card} />
+          <ProductCard key={card.id} card={card} />
         ))}
       </CardRow>
     </ProductSectionRoot>

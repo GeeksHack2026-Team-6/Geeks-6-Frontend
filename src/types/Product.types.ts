@@ -28,10 +28,21 @@ export interface CarbonFootprint {
 export interface BarcodeProductResponse {
   barcode_number: string;
   product_image_uri: string | null;
-  product_report_number: string;
-  company: string;
-  company_report_number: string;
+  product_report_number: string | null;
+  company: string | null;
+  company_report_number: string | null;
   product_name: string;
   esg: boolean;
   carbon_footprint: CarbonFootprint;
+}
+
+export interface ProductFetchHistoryItem {
+  id: string;
+  fetched_at: string;
+  product: BarcodeProductResponse;
+}
+
+export interface ProductHistoryResponse {
+  food: ProductFetchHistoryItem[];
+  product: ProductFetchHistoryItem[];
 }

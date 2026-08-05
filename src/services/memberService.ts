@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "../constants";
-import type { LoginRequest, Member, SignupRequest } from "../types";
+import type { LoginRequest, Member, MemberTokenResponse, SignupRequest } from "../types";
 import { apiClient, assertApiBaseUrl } from "./apiClient";
 
 export async function signupMember(request: SignupRequest): Promise<Member> {
@@ -12,6 +12,17 @@ export async function loginMember(request: LoginRequest): Promise<Member> {
   assertApiBaseUrl();
   const { data } = await apiClient.post<Member>(API_ENDPOINTS.member.login, request);
   return data;
+}
+
+export async function getMemberAccessToken(): Promise<string> {
+  assertApiBaseUrl();
+  const { data } = await apiClient.get<MemberTokenResponse>(API_ENDPOINTS.member.token);
+
+  if (!data.accessToken?.trim()) {
+    throw new Error("The member token response does not contain an access token.");
+  }
+
+  return data.accessToken;
 }
 
 export async function signoutMember(): Promise<void> {

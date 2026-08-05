@@ -1,8 +1,15 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "../../components/common";
 import { BottomNavigation, MobileFrame } from "../../components/layout";
 import { ROUTES } from "../../constants";
-import { useAuth, useCurrentMember } from "../../hooks";
-import { useNavigate } from "react-router-dom";
+import { useAuth, useCurrentMember, useProductHistory } from "../../hooks";
+import {
+  getRecentHistoryItems,
+  toConsumptionSummary,
+  toPurchaseHistoryItems,
+} from "../../utils";
+import { AppLoadingPage } from "../AppLoading";
 import {
   AllHistoryButton,
   ContentDivider,
@@ -25,40 +32,32 @@ import {
   SummaryValue,
   SignoutButton,
 } from "./MyPage.style";
-import type {
-  ConsumptionSummaryItem,
-  MyMenuItem,
-  PurchaseHistoryItem,
-} from "./MyPage.types";
-
-const consumptionSummary: ConsumptionSummaryItem[] = [
-  { label: "내가 책임 소비한 상품", value: "17개", icon: "responsible-consumption" },
-  { label: "내가 인증한 구매", value: "9건", icon: "purchase-verification" },
-  { label: "지금까지 내가 절감시킨 탄소", value: "77kg", icon: "carbon-reduction" },
-];
-
-const purchaseHistory: PurchaseHistoryItem[] = [
-  { id: "eco-bag", name: "에코백", points: 50 },
-  { id: "soap-1", name: "고체비누", points: 140 },
-  { id: "fair-trade-chocolate-1", name: "공정무역 초콜릿", points: 320 },
-  { id: "tumbler-1", name: "텀블러", points: 280 },
-  { id: "soap-2", name: "고체비누", points: 140 },
-  { id: "home-run-ball", name: "홈런볼", points: 40 },
-  { id: "tumbler-2", name: "텀블러", points: 280 },
-  { id: "fair-trade-chocolate-2", name: "공정무역 초콜릿", points: 320 },
-];
+import type { MyMenuItem } from "./MyPage.types";
 
 const menuItems: MyMenuItem[] = [
   { label: "설정", icon: "settings" },
   { label: "이용약관", icon: "terms" },
   { label: "개인정보 처리방침", icon: "privacy" },
-  { label: "도움말", icon: "help" },
+  { label: "문의하기", icon: "help" },
 ];
 
 export function MyPage() {
   const navigate = useNavigate();
   const { isPending, signout } = useAuth();
-  const { member } = useCurrentMember();
+  const { member, isLoading: isMemberLoading } = useCurrentMember();
+  const { history, isLoading: isHistoryLoading } = useProductHistory();
+  const [isShowingAllHistory, setIsShowingAllHistory] = useState(false);
+
+  if (isMemberLoading || isHistoryLoading) {
+    return <AppLoadingPage />;
+  }
+
+  const historyItems = getRecentHistoryItems(history);
+  const consumptionSummary = toConsumptionSummary(historyItems);
+  const purchaseHistory = toPurchaseHistoryItems(historyItems);
+  const displayedHistory = isShowingAllHistory
+    ? purchaseHistory
+    : purchaseHistory.slice(0, 8);
 
   async function handleSignout() {
     if (await signout()) {
@@ -73,7 +72,7 @@ export function MyPage() {
           <MyHeader>
             <MyTitle>나의 소비</MyTitle>
             <MyDescription>
-              {member?.username ?? "회원"} 님이 만들어온 현명한 선택들을 확인해보세요
+              {member?.username ?? "회원"}님이 확인한 친환경 상품을 살펴보세요.
             </MyDescription>
           </MyHeader>
 
@@ -89,20 +88,22 @@ export function MyPage() {
             ))}
           </SummaryList>
 
-          <HistorySection aria-labelledby="recent-purchase-title">
+          <HistorySection aria-labelledby="recent-history-title">
             <HistoryHeader>
-              <h2 id="recent-purchase-title">최근 구매 인증</h2>
-              <AllHistoryButton
-                type="button"
-                onClick={() => window.alert("전체 구매 인증 내역은 준비 중입니다.")}>
-                전체 보기
-              </AllHistoryButton>
+              <h2 id="recent-history-title">최근 확인한 상품</h2>
+              {purchaseHistory.length > 8 && (
+                <AllHistoryButton
+                  type="button"
+                  onClick={() => setIsShowingAllHistory((current) => !current)}>
+                  {isShowingAllHistory ? "접기" : "전체 보기"}
+                </AllHistoryButton>
+              )}
             </HistoryHeader>
             <HistoryList>
-              {purchaseHistory.map((purchase) => (
+              {displayedHistory.map((purchase) => (
                 <HistoryRow key={purchase.id}>
                   <HistoryName>{purchase.name}</HistoryName>
-                  <HistoryPoints>+ {purchase.points}P</HistoryPoints>
+                  <HistoryPoints>{purchase.carbonKg.toFixed(2)} kg CO₂e</HistoryPoints>
                 </HistoryRow>
               ))}
             </HistoryList>

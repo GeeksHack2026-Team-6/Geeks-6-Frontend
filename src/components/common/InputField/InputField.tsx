@@ -50,7 +50,11 @@ export function InputField({
           </VisibilityButton>
         )}
       </FieldLine>
-      {error && <ErrorMessage id={errorId}>{error}</ErrorMessage>}
+      {error && (
+        <ErrorMessage id={errorId} role="alert">
+          {error}
+        </ErrorMessage>
+      )}
     </FieldRoot>
   );
 }

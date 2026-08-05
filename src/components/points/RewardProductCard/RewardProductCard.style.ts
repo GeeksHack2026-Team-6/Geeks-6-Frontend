@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import type { RewardBrand } from "./RewardProductCard.types";
 
 export const Card = styled.article`
   display: flex;
@@ -13,7 +12,7 @@ export const Card = styled.article`
   border-radius: ${({ theme }) => theme.radii.card};
 `;
 
-export const ImageFrame = styled.div<{ $brand: RewardBrand }>`
+export const ImageFrame = styled.div`
   display: grid;
   flex: 0 0 122px;
   width: 122px;
@@ -25,9 +24,9 @@ export const ImageFrame = styled.div<{ $brand: RewardBrand }>`
 
   img {
     display: block;
-    width: ${({ $brand }) => ($brand === "cu" ? "74px" : $brand === "gs25" ? "68px" : "100%")};
-    height: ${({ $brand }) => ($brand === "cu" ? "50px" : $brand === "gs25" ? "68px" : "100%")};
-    object-fit: ${({ $brand }) => ($brand === "daiso" ? "cover" : "contain")};
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 `;
 

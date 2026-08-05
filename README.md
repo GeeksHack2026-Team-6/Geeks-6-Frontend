@@ -2,8 +2,9 @@
 
 ## API configuration
 
-Set `VITE_API_BASE_URL` in `.env` to the API base URL. Include a shared path prefix such as
-`/api` when the server uses one; API requests are sent directly to this URL without a Vite proxy.
+Set `VITE_API_BASE_URL` in `.env` to the API base URL, without a trailing slash. The current
+server exposes routes from its root, so use `http://165.140.22.23:3000` rather than appending
+`/api`. API requests are sent directly to this URL without a Vite proxy.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

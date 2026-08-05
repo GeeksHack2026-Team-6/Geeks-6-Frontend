@@ -24,15 +24,17 @@ import {
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { isPending, login } = useAuth();
+  const { isPending, errorMessage, clearError, login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const ready = isValidEmail(email) && password.length >= 6;
   const emailError =
-    submitted && !isValidEmail(email) ? "이메일 형식을 확인해주세요" : undefined;
+    submitted && !isValidEmail(email) ? "이메일 형식을 확인해주세요." : undefined;
   const passwordError =
-    submitted && password.length < 6 ? "비밀번호는 6글자 이상이어야 해요" : undefined;
+    submitted && password.length < 6
+      ? "비밀번호는 6글자 이상이어야 해요."
+      : (errorMessage ?? undefined);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,7 +60,10 @@ export function LoginPage() {
               label="이메일"
               icon="email"
               value={email}
-              onChange={setEmail}
+              onChange={(value) => {
+                clearError();
+                setEmail(value);
+              }}
               type="email"
               autoComplete="email"
               error={emailError}
@@ -67,7 +72,10 @@ export function LoginPage() {
               label="비밀번호"
               icon="password-lock"
               value={password}
-              onChange={setPassword}
+              onChange={(value) => {
+                clearError();
+                setPassword(value);
+              }}
               type="password"
               autoComplete="current-password"
               error={passwordError}

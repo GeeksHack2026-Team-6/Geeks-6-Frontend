@@ -9,7 +9,7 @@ export interface ConsumptionSummaryItem {
 export interface PurchaseHistoryItem {
   id: string;
   name: string;
-  points: number;
+  carbonKg: number;
 }
 
 export interface MyMenuItem {

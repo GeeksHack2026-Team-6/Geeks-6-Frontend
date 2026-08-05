@@ -1,10 +1,11 @@
 import type { IconName } from "../common";
 
 export interface ProductCardData {
+  id: string;
   name: string;
   carbon: string;
   percentage: string;
-  points: string;
+  pointWeight: number;
   image?: string;
 }
 export interface SummaryCardProps {

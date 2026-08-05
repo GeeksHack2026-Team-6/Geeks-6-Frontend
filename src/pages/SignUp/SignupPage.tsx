@@ -28,7 +28,7 @@ import type { SignupStep } from "./SignupPage.types";
 
 export function SignupPage() {
   const navigate = useNavigate();
-  const { isPending, signup } = useAuth();
+  const { isPending, errorMessage, clearError, signup } = useAuth();
   const [step, setStep] = useState<SignupStep>("profile");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,16 +41,16 @@ export function SignupPage() {
   const profileReady = name.trim().length > 0 && validEmail;
   const verificationReady = /^\d{6}$/.test(verificationCode);
   const passwordReady = password.length >= 6 && password === confirmPassword;
-  const emailError = email && !validEmail ? "이메일의 형식이 올바르지 않아요" : undefined;
+  const emailError = email && !validEmail ? "이메일 형식이 올바르지 않아요." : undefined;
   const passwordError =
-    password && password.length < 6 ? "비밀번호는 6글자 이상이어야 해요" : undefined;
+    password && password.length < 6 ? "비밀번호는 6글자 이상이어야 해요." : undefined;
   const confirmError =
     confirmPassword && password !== confirmPassword
-      ? "비밀번호가 일치하지 않아요"
-      : undefined;
+      ? "비밀번호가 일치하지 않아요."
+      : (errorMessage ?? undefined);
   const verificationError =
     verificationAttempted && !verificationReady
-      ? "인증코드를 다시 확인해주세요"
+      ? "인증코드를 다시 확인해주세요."
       : undefined;
   const ready =
     step === "profile"
@@ -89,9 +89,10 @@ export function SignupPage() {
           {step !== "profile" && (
             <BackButton
               type="button"
-              onClick={() =>
-                setStep(step === "verification" ? "profile" : "verification")
-              }
+              onClick={() => {
+                clearError();
+                setStep(step === "verification" ? "profile" : "verification");
+              }}
               aria-label="이전 단계로 돌아가기">
               <Icon name="arrow-back" size={20} />
             </BackButton>
@@ -105,14 +106,20 @@ export function SignupPage() {
                 label="이름"
                 icon="profile"
                 value={name}
-                onChange={setName}
+                onChange={(value) => {
+                  clearError();
+                  setName(value);
+                }}
                 autoComplete="name"
               />
               <InputField
                 label="이메일"
                 icon="email"
                 value={email}
-                onChange={setEmail}
+                onChange={(value) => {
+                  clearError();
+                  setEmail(value);
+                }}
                 type="email"
                 autoComplete="email"
                 error={emailError}
@@ -125,7 +132,10 @@ export function SignupPage() {
                   label="인증코드 6자리"
                   icon="email"
                   value={verificationCode}
-                  onChange={(value) => setVerificationCode(value.replace(/\D/g, ""))}
+                  onChange={(value) => {
+                    clearError();
+                    setVerificationCode(value.replace(/\D/g, ""));
+                  }}
                   autoComplete="one-time-code"
                   inputMode="numeric"
                   maxLength={6}
@@ -152,7 +162,10 @@ export function SignupPage() {
                 label="비밀번호"
                 icon="password-lock"
                 value={password}
-                onChange={setPassword}
+                onChange={(value) => {
+                  clearError();
+                  setPassword(value);
+                }}
                 type="password"
                 autoComplete="new-password"
                 error={passwordError}
@@ -161,7 +174,10 @@ export function SignupPage() {
                 label="비밀번호 재입력"
                 icon="password-lock"
                 value={confirmPassword}
-                onChange={setConfirmPassword}
+                onChange={(value) => {
+                  clearError();
+                  setConfirmPassword(value);
+                }}
                 type="password"
                 autoComplete="new-password"
                 error={confirmError}
@@ -173,7 +189,7 @@ export function SignupPage() {
               {step === "password" ? "회원가입" : "다음"}
             </Button>
             <AuthFooter
-              prompt="이미 계정이 있으세요?"
+              prompt="이미 계정이 있으신가요?"
               linkText="로그인 하러가기"
               to={ROUTES.login}
             />

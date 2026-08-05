@@ -1,5 +1,18 @@
-import type { BarcodeProductResponse } from "../types";
 import type { ProductAnalysisData } from "../pages/ProductAnalysis/ProductAnalysisPage.types";
+import type { BarcodeProductResponse } from "../types";
+
+export function getReductionPercentage(
+  totalCarbonKg: number,
+  peerAverageCarbonKg: number
+): number {
+  if (peerAverageCarbonKg <= 0) {
+    return 0;
+  }
+
+  return Math.round(
+    Math.max(0, ((peerAverageCarbonKg - totalCarbonKg) / peerAverageCarbonKg) * 100)
+  );
+}
 
 function getComparisonDescription(
   totalCarbonKg: number,
@@ -14,8 +27,8 @@ function getComparisonDescription(
   );
 
   return totalCarbonKg <= peerAverageCarbonKg
-    ? `평균보다 ${differencePercentage}% 낮아요`
-    : `평균보다 ${differencePercentage}% 높아요`;
+    ? `평균보다 ${differencePercentage}% 낮아요.`
+    : `평균보다 ${differencePercentage}% 높아요.`;
 }
 
 function getComparisonPosition(
@@ -37,20 +50,13 @@ export function toProductAnalysisData(
   return {
     id: product.barcode_number,
     name: product.product_name,
-    brand: product.company,
+    brand: product.company ?? "제조사 정보 없음",
     imageUrl: product.product_image_uri,
     carbonKg: carbonFootprint.total_kg_co2e,
-    reductionPercentage:
-      carbonFootprint.peer_average_kg_co2e > 0
-        ? Math.round(
-            Math.max(
-              0,
-              ((carbonFootprint.peer_average_kg_co2e - carbonFootprint.total_kg_co2e) /
-                carbonFootprint.peer_average_kg_co2e) *
-                100
-            )
-          )
-        : 0,
+    reductionPercentage: getReductionPercentage(
+      carbonFootprint.total_kg_co2e,
+      carbonFootprint.peer_average_kg_co2e
+    ),
     rewardPoints: null,
     esgLabel: product.esg ? "ESG 인증 상품" : "일반 상품",
     esgDescription: carbonFootprint.increase_factors_summary,

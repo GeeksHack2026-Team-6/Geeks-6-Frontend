@@ -7,9 +7,14 @@ export const API_ENDPOINTS = {
   product: {
     byBarcode: (barcodeNumber: string) => `/product/${barcodeNumber}`,
   },
+  history: "/history",
+  pointStore: {
+    products: "/points/store",
+  },
   member: {
     signup: "/member/signup",
     login: "/member/login",
+    token: "/member/token",
     signout: "/member/signout",
     me: "/member/me",
   },

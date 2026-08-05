@@ -32,7 +32,7 @@ export const Fields = styled.div`
 
 export const ForgotPasswordButton = styled.button`
   position: absolute;
-  top: 357px;
+  top: 390px;
   right: 22px;
   padding: 0;
   border: 0;
@@ -47,7 +47,7 @@ export const ForgotPasswordButton = styled.button`
   }
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(265px, 36vh, 357px);
+    top: clamp(300px, 40vh, 390px);
   }
 `;
 
