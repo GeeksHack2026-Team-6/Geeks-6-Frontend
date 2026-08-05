@@ -51,7 +51,7 @@ export function useAuth() {
         setErrorMessage(null);
         clearStoredAccessToken();
         const member = await loginMember(request);
-        setStoredAccessToken(await getMemberAccessToken());
+        setStoredAccessToken(member.accessToken);
         return member;
       }, true),
     [execute]

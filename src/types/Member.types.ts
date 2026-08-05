@@ -3,8 +3,13 @@ export interface Member {
   email: string;
   username: string;
   points: number;
+  emailVerification: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface MemberWithTokenResponse extends Member {
+  accessToken: string;
 }
 
 export interface MemberTokenResponse {

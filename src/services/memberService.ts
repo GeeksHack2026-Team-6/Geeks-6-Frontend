@@ -1,5 +1,11 @@
 import { API_ENDPOINTS } from "../constants";
-import type { LoginRequest, Member, MemberTokenResponse, SignupRequest } from "../types";
+import type {
+  LoginRequest,
+  Member,
+  MemberTokenResponse,
+  MemberWithTokenResponse,
+  SignupRequest,
+} from "../types";
 import { apiClient, assertApiBaseUrl } from "./apiClient";
 
 export async function signupMember(request: SignupRequest): Promise<Member> {
@@ -8,9 +14,14 @@ export async function signupMember(request: SignupRequest): Promise<Member> {
   return data;
 }
 
-export async function loginMember(request: LoginRequest): Promise<Member> {
+export async function loginMember(
+  request: LoginRequest
+): Promise<MemberWithTokenResponse> {
   assertApiBaseUrl();
-  const { data } = await apiClient.post<Member>(API_ENDPOINTS.member.login, request);
+  const { data } = await apiClient.post<MemberWithTokenResponse>(
+    API_ENDPOINTS.member.login,
+    request
+  );
   return data;
 }
 

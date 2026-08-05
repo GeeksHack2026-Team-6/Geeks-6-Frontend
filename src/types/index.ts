@@ -2,6 +2,7 @@ export type {
   LoginRequest,
   Member,
   MemberTokenResponse,
+  MemberWithTokenResponse,
   SignupRequest,
 } from "./Member.types";
 export type {

@@ -27,27 +27,27 @@ export const BackButton = styled.button`
 
 export const Title = styled.div`
   position: absolute;
-  top: 40px;
-  left: ${({ theme }) => theme.spacing.page};
+  top: 176px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(24px, 5vh, 40px);
+    top: clamp(110px, 19vh, 176px);
   }
 `;
 
-export const TitleWithBack = styled(Title)`
-  left: 43px;
-`;
+export const TitleWithBack = styled(Title)``;
 
 export const Fields = styled.div`
   position: absolute;
-  top: 179px;
+  top: 289px;
   display: grid;
   gap: 36px;
   width: calc(100% - 46px);
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(130px, 19vh, 179px);
+    top: clamp(200px, 31vh, 289px);
   }
 `;
 
@@ -57,7 +57,7 @@ export const VerificationFields = styled(Fields)`
 
 export const ResendButton = styled.button`
   position: absolute;
-  top: 227px;
+  top: 357px;
   right: 22px;
   padding: 0;
   border: 0;
@@ -67,13 +67,13 @@ export const ResendButton = styled.button`
   letter-spacing: 1px;
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(200px, 30vh, 227px);
+    top: clamp(270px, 38vh, 357px);
   }
 `;
 
 export const VerificationNotice = styled.p`
   position: absolute;
-  top: 247px;
+  top: 377px;
   right: 22px;
   margin: 0;
   color: ${({ theme }) => theme.colors.primary};

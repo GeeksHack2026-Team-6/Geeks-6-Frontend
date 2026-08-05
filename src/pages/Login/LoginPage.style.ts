@@ -11,28 +11,31 @@ export const LoginBrand = styled.div`
 
 export const LoginTitle = styled.div`
   position: absolute;
-  top: 118px;
+  top: 176px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(76px, 11vh, 118px);
+    top: clamp(110px, 19vh, 176px);
   }
 `;
 
 export const Fields = styled.div`
   position: absolute;
-  top: 241px;
+  top: 289px;
   display: grid;
   gap: 35px;
   width: calc(100% - 46px);
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(145px, 23vh, 241px);
+    top: clamp(200px, 31vh, 289px);
   }
 `;
 
 export const ForgotPasswordButton = styled.button`
   position: absolute;
-  top: 390px;
+  top: 430px;
   right: 22px;
   padding: 0;
   border: 0;
@@ -47,7 +50,7 @@ export const ForgotPasswordButton = styled.button`
   }
 
   @media (max-height: ${({ theme }) => theme.breakpoints.shortDesktop}) and (min-width: ${({ theme }) => `calc(${theme.breakpoints.mobile} + 1px)`}) {
-    top: clamp(300px, 40vh, 390px);
+    top: clamp(310px, 46vh, 430px);
   }
 `;
 
