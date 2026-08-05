@@ -1,0 +1,12 @@
+services:
+  geeks-hack-fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:?Set VITE_API_BASE_URL in Portainer's stack environment variables}
+    image: geeks-hack-fe:latest
+    pull_policy: build
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped
