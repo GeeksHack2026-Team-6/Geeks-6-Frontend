@@ -2,22 +2,21 @@
 
 ## API configuration
 
-Set `VITE_API_BASE_URL=/api` in `.env`. In development, Vite forwards this same-origin path to
-`VITE_API_PROXY_TARGET` (default: `http://165.140.22.23:3000`). This prevents browser mixed-content
-errors when the frontend is served over HTTPS and the API is HTTP.
+Set `VITE_API_BASE_URL` in `.env` to the API base URL, without a trailing slash. The current
+server exposes routes from its root, so use `http://165.140.22.23:3000` rather than appending
+`/api`. API requests are sent directly to this URL without a Vite proxy.
 
 ## Portainer deployment
 
 Use `docker-compose.portainer.yml` when creating a Portainer Stack from this repository. Set these Stack
 environment variables before deploying:
 
-- `API_PROXY_TARGET`: HTTP API origin reached by the Nginx container; defaults to
-  `http://165.140.22.23:3000`.
+- `VITE_API_BASE_URL`: the API base URL, without a trailing slash (required at image build time).
 - `PORT`: optional host port; defaults to `8080`.
 
-The stack builds the Vite SPA with Bun, serves it through Nginx, proxies browser `/api/*` calls to
-the HTTP API, supports client-side routes, and exposes `GET /healthz` for container health checks.
-For Git-based stacks, select `docker-compose.portainer.yml` as the Compose path and enable GitOps polling if automatic redeployments
+The stack builds the Vite SPA with Bun, serves it through Nginx, supports client-side routes, and
+exposes `GET /healthz` for container health checks. For Git-based stacks, select
+`docker-compose.portainer.yml` as the Compose path and enable GitOps polling if automatic redeployments
 are desired.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
