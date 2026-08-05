@@ -28,7 +28,15 @@ import type { SignupStep } from "./SignupPage.types";
 
 export function SignupPage() {
   const navigate = useNavigate();
-  const { isPending, errorMessage, clearError, signup } = useAuth();
+  const {
+    isPending,
+    errorMessage,
+    clearError,
+    beginSignup,
+    verifySignupEmail,
+    resendSignupEmailVerification,
+    finishSignup,
+  } = useAuth();
   const [step, setStep] = useState<SignupStep>("profile");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -39,11 +47,15 @@ export function SignupPage() {
   const [resent, setResent] = useState(false);
   const validEmail = isValidEmail(email);
   const profileReady = name.trim().length > 0 && validEmail;
+  const profileError = step === "profile" ? (errorMessage ?? undefined) : undefined;
   const verificationReady = /^\d{6}$/.test(verificationCode);
-  const passwordReady = password.length >= 6 && password === confirmPassword;
+  const passwordReady =
+    password.length >= 8 && password.length <= 72 && password === confirmPassword;
   const emailError = email && !validEmail ? "이메일 형식이 올바르지 않아요." : undefined;
   const passwordError =
-    password && password.length < 6 ? "비밀번호는 6글자 이상이어야 해요." : undefined;
+    password && (password.length < 8 || password.length > 72)
+      ? "비밀번호는 8자 이상 72자 이하여야 해요."
+      : undefined;
   const confirmError =
     confirmPassword && password !== confirmPassword
       ? "비밀번호가 일치하지 않아요."
@@ -68,14 +80,33 @@ export function SignupPage() {
 
   async function continueSignup(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (step === "profile" && profileReady) setStep("verification");
+    if (step === "profile" && profileReady) {
+      const member = await beginSignup({ email, username: name.trim() });
+      if (member) setStep("verification");
+      return;
+    }
+
     if (step === "verification") {
       setVerificationAttempted(true);
-      if (verificationReady) setStep("password");
+      if (verificationReady) {
+        const member = await verifySignupEmail({ code: verificationCode });
+        if (member) setStep("password");
+      }
+      return;
     }
+
     if (step === "password" && passwordReady) {
-      const member = await signup({ email, password, username: name.trim() });
+      const member = await finishSignup({ password });
       if (member) navigate(ROUTES.home, { replace: true });
+    }
+  }
+
+  async function resendVerificationCode() {
+    const result = await resendSignupEmailVerification();
+
+    if (result !== null) {
+      setResent(true);
+      setVerificationAttempted(false);
     }
   }
 
@@ -122,7 +153,7 @@ export function SignupPage() {
                 }}
                 type="email"
                 autoComplete="email"
-                error={emailError}
+                error={emailError ?? profileError}
               />
             </Fields>
           ) : step === "verification" ? (
@@ -139,15 +170,13 @@ export function SignupPage() {
                   autoComplete="one-time-code"
                   inputMode="numeric"
                   maxLength={6}
-                  error={verificationError}
+                  error={verificationError ?? (errorMessage ?? undefined)}
                 />
               </VerificationFields>
               <ResendButton
                 type="button"
-                onClick={() => {
-                  setResent(true);
-                  setVerificationAttempted(false);
-                }}>
+                onClick={() => void resendVerificationCode()}
+                disabled={isPending}>
                 인증코드 재전송
               </ResendButton>
               {resent && (
@@ -168,6 +197,7 @@ export function SignupPage() {
                 }}
                 type="password"
                 autoComplete="new-password"
+                maxLength={72}
                 error={passwordError}
               />
               <InputField
@@ -180,6 +210,7 @@ export function SignupPage() {
                 }}
                 type="password"
                 autoComplete="new-password"
+                maxLength={72}
                 error={confirmError}
               />
             </Fields>

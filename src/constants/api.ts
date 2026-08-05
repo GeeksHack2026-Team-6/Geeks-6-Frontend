@@ -14,6 +14,9 @@ export const API_ENDPOINTS = {
   },
   member: {
     signup: "/member/signup",
+    verifyEmail: "/member/verify_email",
+    resendEmailVerification: "/member/verify_email/resend",
+    completeSignup: "/member/complete_signup",
     login: "/member/login",
     token: "/member/token",
     signout: "/member/signout",

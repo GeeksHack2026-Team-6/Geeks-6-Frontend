@@ -9,11 +9,14 @@ export { checkApiHealth } from "./systemService";
 export { getProductHistory } from "./historyService";
 export {
   addMemberPoints,
+  completeSignup,
   getCurrentMember,
   getMemberAccessToken,
   loginMember,
+  resendEmailVerification,
   signoutMember,
   signupMember,
+  verifyEmail,
 } from "./memberService";
 export { getProductByBarcode, getProductsByReceipt } from "./productService";
 export { getPointStoreProducts } from "./pointStoreService";

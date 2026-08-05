@@ -1,16 +1,48 @@
 import { API_ENDPOINTS } from "../constants";
 import type {
+  CompleteSignupRequest,
   LoginRequest,
   Member,
   MemberTokenResponse,
   MemberWithTokenResponse,
   SignupRequest,
+  VerifyEmailRequest,
 } from "../types";
 import { apiClient, assertApiBaseUrl } from "./apiClient";
 
-export async function signupMember(request: SignupRequest): Promise<Member> {
+export async function signupMember(
+  request: SignupRequest
+): Promise<MemberWithTokenResponse> {
   assertApiBaseUrl();
-  const { data } = await apiClient.post<Member>(API_ENDPOINTS.member.signup, request);
+  const { data } = await apiClient.post<MemberWithTokenResponse>(
+    API_ENDPOINTS.member.signup,
+    request
+  );
+  return data;
+}
+
+export async function verifyEmail(request: VerifyEmailRequest): Promise<Member> {
+  assertApiBaseUrl();
+  const { data } = await apiClient.post<Member>(
+    API_ENDPOINTS.member.verifyEmail,
+    request
+  );
+  return data;
+}
+
+export async function resendEmailVerification(): Promise<void> {
+  assertApiBaseUrl();
+  await apiClient.post(API_ENDPOINTS.member.resendEmailVerification);
+}
+
+export async function completeSignup(
+  request: CompleteSignupRequest
+): Promise<Member> {
+  assertApiBaseUrl();
+  const { data } = await apiClient.post<Member>(
+    API_ENDPOINTS.member.completeSignup,
+    request
+  );
   return data;
 }
 

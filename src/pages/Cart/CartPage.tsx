@@ -41,10 +41,7 @@ function CartProductRow({ item, checked, onToggle }: CartProductRowProps) {
       />
       <ProductImageFrame>
         {item.imageUrl && (
-          <ProductImage
-            src={item.imageUrl}
-            alt={`${item.brand} ${item.name}`}
-          />
+          <ProductImage src={item.imageUrl} alt={`${item.brand} ${item.name}`} />
         )}
       </ProductImageFrame>
       <ProductDetails>
@@ -90,9 +87,7 @@ export function CartPage() {
     receiptInputRef.current?.click();
   };
 
-  const handleReceiptImageChange = async (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleReceiptImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files?.[0];
     event.currentTarget.value = "";
 
@@ -103,7 +98,9 @@ export function CartPage() {
     const supportedImageTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
 
     if (!supportedImageTypes.has(file.type) || file.size > 10 * 1024 * 1024) {
-      setReceiptMessage("JPEG, PNG, WebP 형식의 10MB 이하 영수증 이미지를 선택해 주세요.");
+      setReceiptMessage(
+        "JPEG, PNG, WebP 형식의 10MB 이하 영수증 이미지를 선택해 주세요."
+      );
       return;
     }
 
@@ -132,7 +129,9 @@ export function CartPage() {
       );
 
       if (points < 1 || points > 1_000_000) {
-        setReceiptMessage("영수증에서 선택한 장바구니 상품의 적립 포인트를 찾지 못했습니다.");
+        setReceiptMessage(
+          "영수증에서 선택한 장바구니 상품의 적립 포인트를 찾지 못했습니다."
+        );
         return;
       }
 
@@ -141,7 +140,9 @@ export function CartPage() {
         `영수증에서 ${matchedProducts.length}개 상품을 확인해 ${points.toLocaleString()}P를 적립했습니다. 현재 포인트는 ${member.points.toLocaleString()}P입니다.`
       );
     } catch {
-      setReceiptMessage("영수증을 처리하거나 포인트를 적립하지 못했습니다. 다시 시도해 주세요.");
+      setReceiptMessage(
+        "영수증을 처리하거나 포인트를 적립하지 못했습니다. 다시 시도해 주세요."
+      );
     } finally {
       setIsReceiptProcessing(false);
     }
@@ -207,7 +208,9 @@ export function CartPage() {
             hidden
             onChange={handleReceiptImageChange}
           />
-          {receiptMessage && <ReceiptFeedback role="status">{receiptMessage}</ReceiptFeedback>}
+          {receiptMessage && (
+            <ReceiptFeedback role="status">{receiptMessage}</ReceiptFeedback>
+          )}
           <ReceiptButton
             type="button"
             disabled={selectedProductIds.length === 0 || isReceiptProcessing}

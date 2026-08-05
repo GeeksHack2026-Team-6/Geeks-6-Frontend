@@ -18,8 +18,15 @@ export interface MemberTokenResponse {
 
 export interface SignupRequest {
   email: string;
-  password: string;
   username: string;
+}
+
+export interface VerifyEmailRequest {
+  code: string;
+}
+
+export interface CompleteSignupRequest {
+  password: string;
 }
 
 export interface LoginRequest {

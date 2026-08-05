@@ -1,9 +1,11 @@
 export type {
+  CompleteSignupRequest,
   LoginRequest,
   Member,
   MemberTokenResponse,
   MemberWithTokenResponse,
   SignupRequest,
+  VerifyEmailRequest,
 } from "./Member.types";
 export type {
   BarcodeProductResponse,

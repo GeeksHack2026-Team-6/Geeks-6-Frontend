@@ -3,13 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants";
 import {
   clearStoredAccessToken,
-  getMemberAccessToken,
+  completeSignup,
   loginMember,
+  resendEmailVerification,
   setStoredAccessToken,
   signoutMember,
   signupMember,
+  verifyEmail,
 } from "../services";
-import type { LoginRequest, Member, SignupRequest } from "../types";
+import type {
+  CompleteSignupRequest,
+  LoginRequest,
+  Member,
+  SignupRequest,
+  VerifyEmailRequest,
+} from "../types";
 import { getApiErrorMessage } from "../utils";
 
 export function useAuth() {
@@ -57,14 +65,41 @@ export function useAuth() {
     [execute]
   );
 
-  const signup = useCallback(
+  const beginSignup = useCallback(
     (request: SignupRequest): Promise<Member | null> =>
       execute(async () => {
         setErrorMessage(null);
         clearStoredAccessToken();
         const member = await signupMember(request);
-        setStoredAccessToken(await getMemberAccessToken());
+        setStoredAccessToken(member.accessToken);
         return member;
+      }, true),
+    [execute]
+  );
+
+  const verifySignupEmail = useCallback(
+    (request: VerifyEmailRequest): Promise<Member | null> =>
+      execute(async () => {
+        setErrorMessage(null);
+        return verifyEmail(request);
+      }, true),
+    [execute]
+  );
+
+  const resendSignupEmailVerification = useCallback(
+    (): Promise<void | null> =>
+      execute(async () => {
+        setErrorMessage(null);
+        await resendEmailVerification();
+      }, true),
+    [execute]
+  );
+
+  const finishSignup = useCallback(
+    (request: CompleteSignupRequest): Promise<Member | null> =>
+      execute(async () => {
+        setErrorMessage(null);
+        return completeSignup(request);
       }, true),
     [execute]
   );
@@ -84,5 +119,15 @@ export function useAuth() {
     setErrorMessage(null);
   }, []);
 
-  return { isPending, errorMessage, clearError, login, signup, signout };
+  return {
+    isPending,
+    errorMessage,
+    clearError,
+    login,
+    beginSignup,
+    verifySignupEmail,
+    resendSignupEmailVerification,
+    finishSignup,
+    signout,
+  };
 }
