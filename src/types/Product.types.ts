@@ -36,6 +36,12 @@ export interface BarcodeProductResponse {
   carbon_footprint: CarbonFootprint;
 }
 
+export interface ReceiptProductResponse extends BarcodeProductResponse {
+  quantity: number;
+  price: number;
+  points_earned: number;
+}
+
 export interface ProductFetchHistoryItem {
   id: string;
   fetched_at: string;

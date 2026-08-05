@@ -213,6 +213,14 @@ export const ReceiptTitle = styled.h2`
   line-height: ${({ theme }) => theme.lineHeights.compact};
 `;
 
+export const ReceiptFeedback = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  line-height: ${({ theme }) => theme.lineHeights.compact};
+`;
+
 export const ReceiptButton = styled.button`
   display: flex;
   min-height: 36px;

@@ -27,9 +27,9 @@ export function SummaryCard({ type, value, label, icon }: SummaryCardProps) {
 function ProductCard({ card }: { card: ProductCardData }) {
   return (
     <ProductCardRoot>
-      <ProductImage $isPlaceholder={!card.image}>
-        {card.image ? (
-          <img src={card.image} alt={`${card.name} 상품 이미지`} />
+      <ProductImage $isPlaceholder={!card.imageUrl}>
+        {card.imageUrl ? (
+          <img src={card.imageUrl} alt={`${card.name} 상품 이미지`} />
         ) : (
           <span>이미지 준비중</span>
         )}

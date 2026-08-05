@@ -30,7 +30,7 @@ export function toProductCardData(item: ProductFetchHistoryItem): ProductCardDat
       footprint.peer_average_kg_co2e
     ).toString(),
     pointWeight: Math.round(footprint.point_weight * 100),
-    image: item.product.product_image_uri ?? undefined,
+    imageUrl: item.product.product_image_uri,
   };
 }
 

@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "../constants";
-import type { BarcodeProductResponse } from "../types";
+import type { BarcodeProductResponse, ReceiptProductResponse } from "../types";
 import { apiClient, assertApiBaseUrl } from "./apiClient";
 
 export async function getProductByBarcode(
@@ -9,7 +9,26 @@ export async function getProductByBarcode(
   assertApiBaseUrl();
   const { data } = await apiClient.get<BarcodeProductResponse>(
     API_ENDPOINTS.product.byBarcode(barcodeNumber),
-    { signal }
+    {
+      signal,
+      timeout: 120_000,
+    }
+  );
+  return data;
+}
+
+export async function getProductsByReceipt(
+  file: File
+): Promise<ReceiptProductResponse[]> {
+  assertApiBaseUrl();
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const { data } = await apiClient.post<ReceiptProductResponse[]>(
+    API_ENDPOINTS.product.receipt,
+    formData,
+    { timeout: 120_000 }
   );
   return data;
 }

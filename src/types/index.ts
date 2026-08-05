@@ -12,5 +12,6 @@ export type {
   ProductFetchHistoryItem,
   ProductData,
   ProductHistoryResponse,
+  ReceiptProductResponse,
 } from "./Product.types";
 export type { PointStoreProduct } from "./PointStore.types";

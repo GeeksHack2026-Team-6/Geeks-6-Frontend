@@ -46,3 +46,11 @@ export async function getCurrentMember(signal?: AbortSignal): Promise<Member> {
   const { data } = await apiClient.get<Member>(API_ENDPOINTS.member.me, { signal });
   return data;
 }
+
+export async function addMemberPoints(points: number): Promise<Member> {
+  assertApiBaseUrl();
+  const { data } = await apiClient.post<Member>(API_ENDPOINTS.member.points, {
+    points,
+  });
+  return data;
+}

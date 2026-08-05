@@ -4,9 +4,11 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:?Set VITE_API_BASE_URL in Portainer's stack environment variables}
+        VITE_API_BASE_URL: /api
     image: geeks-hack-fe:latest
     pull_policy: build
+    environment:
+      API_PROXY_TARGET: ${API_PROXY_TARGET:-http://165.140.22.23:3000}
     ports:
       - "${PORT:-8080}:80"
     restart: unless-stopped

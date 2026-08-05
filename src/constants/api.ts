@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
   health: "/",
   product: {
     byBarcode: (barcodeNumber: string) => `/product/${barcodeNumber}`,
+    receipt: "/product/receipt",
   },
   history: "/history",
   pointStore: {
@@ -17,5 +18,6 @@ export const API_ENDPOINTS = {
     token: "/member/token",
     signout: "/member/signout",
     me: "/member/me",
+    points: "/member/points",
   },
 } as const;

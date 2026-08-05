@@ -1,4 +1,3 @@
-import homeRunBall from "../../assets/images/home-run-ball-analysis.png";
 import { Icon } from "../../components/common";
 import { MobileFrame } from "../../components/layout";
 import { ROUTES } from "../../constants";
@@ -69,10 +68,12 @@ export function ProductAnalysisPage() {
 
         <AnalysisContent>
           <ProductImageCard>
-            <ProductImage
-              src={product.imageUrl ?? homeRunBall}
-              alt={`${product.brand} ${product.name}`}
-            />
+            {product.imageUrl && (
+              <ProductImage
+                src={product.imageUrl}
+                alt={`${product.brand} ${product.name}`}
+              />
+            )}
           </ProductImageCard>
 
           <ProductInfo>

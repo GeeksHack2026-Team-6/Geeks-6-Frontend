@@ -6,7 +6,7 @@ export interface ProductCardData {
   carbon: string;
   percentage: string;
   pointWeight: number;
-  image?: string;
+  imageUrl: string | null;
 }
 export interface SummaryCardProps {
   type: string;
